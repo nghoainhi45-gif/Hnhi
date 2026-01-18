@@ -209,3 +209,87 @@ Giải thích tại sao phone phải dùng String, không dùng int
 
 Nếu bạn muốn, mình có thể vẽ sơ đồ luồng dữ liệu từ Employee → Validation → EmployeeManager → Main để dễ hình dung toàn bộ hệ thống luôn.
 Bạn có muốn mình vẽ sơ đồ đó không?
+Ứng dụng để vẽ flowchart kiểu bạn gửi (Mermaid)
+
+Mermaid Live Editor – miễn phí, online: https://mermaid.live/
+
+Paste code flowchart vào → nó sẽ tự vẽ ra hình.
+
+Hỗ trợ icon fa:fa-car giống ví dụ bạn gửi.
+
+Diagrams.net (Draw.io) – kéo thả: https://app.diagrams.net/
+
+Không cần viết code, nhưng bạn phải kéo thả shape và mũi tên.
+
+Lucidchart – đẹp, trực quan nhưng free giới hạn.
+
+2️⃣ Viết flowchart Validation logic kiểu bạn gửi
+
+Bạn có thể viết như sau (giống cú pháp flowchart TD với mũi tên, decision, label):
+
+flowchart TD
+    A[Start] --> B[Enter Employee ID]
+    B --> C{ID null or empty?}
+    C -- Yes --> D[Error, retry ID]
+    C -- No --> E{ID contains space?}
+    E -- Yes --> D
+    E -- No --> F[Enter Name]
+    F --> G{Name null or empty?}
+    G -- Yes --> H[Error, retry Name]
+    G -- No --> I[Enter Age]
+    I --> J{Age <18 or >65?}
+    J -- Yes --> K[Error, retry Age]
+    J -- No --> L[Enter Salary]
+    L --> M{Salary <0?}
+    M -- Yes --> N[Error, retry Salary]
+    M -- No --> O[Enter Email]
+    O --> P{Email null or empty?}
+    P -- Yes --> Q[Error, retry Email]
+    P -- No --> R{Email valid?}
+    R -- No --> Q
+    R -- Yes --> S[Enter Phone]
+    S --> T{Phone invalid?}
+    T -- Yes --> U[Error, retry Phone]
+    T -- No --> V[All valid → Save → End]
+
+
+Paste vào Mermaid Live Editor → flowchart hiện ra trực quan, có khung decision, mũi tên, text.
+
+3️⃣ Lưu lên GitHub và có khung khi mở
+
+Cách A: Lưu dưới dạng Markdown .md
+
+Tạo file validation_flowchart.md trong repo, paste code Mermaid vào.
+
+GitHub mới (2023 trở đi) render trực tiếp Mermaid, bạn sẽ thấy khung flowchart.
+
+Nếu GitHub cũ hoặc Markdown viewer không hỗ trợ Mermaid → chỉ thấy code block.
+
+Cách B: Xuất hình ảnh
+
+Trong Mermaid Live Editor, chọn Export PNG / SVG → lưu hình validation_flowchart.png.
+
+Commit lên repo, nhúng trong Markdown:
+
+![Validation Flowchart](images/validation_flowchart.png)
+
+
+✅ Cách này chắc chắn ai mở repo cũng thấy flowchart có khung, không phụ thuộc GitHub hỗ trợ Mermaid hay không.
+
+4️⃣ Kết luận trả lời người hỏi
+
+Ứng dụng vẽ: Mermaid Live Editor (code tự render) hoặc Diagrams.net (kéo thả).
+
+Code flowchart kiểu Mermaid: giống ví dụ flowchart TD bạn gửi.
+
+Lưu lên GitHub: có 2 cách
+
+.md → GitHub mới render Mermaid trực tiếp.
+
+PNG/SVG → nhúng Markdown → chắc chắn ra khung.
+
+Khung flowchart có xuất hiện không?
+
+Markdown + Mermaid: có nếu GitHub mới.
+
+Hình ảnh PNG/SVG: chắc chắn có.
