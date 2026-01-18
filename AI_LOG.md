@@ -50,3 +50,162 @@ Phần mềm sẽ làm chức năng gì (Ví dụ: Thêm nhân viên, tính lư�
 2. Đừng quên cập nhật AI_LOG.md: Mỗi lần bạn hỏi mình (như lúc nãy hỏi về lỗi trùng folder), hãy copy câu hỏi đó dán vào file AI_LOG.md. Giảng viên sẽ thấy bạn làm việc rất nghiêm túc và trung thực.
 
 Tiếp theo bạn định làm hệ thống quản lý gì? Nói mình biết, mình sẽ soạn sẵn cho bạn cái Class Diagram (Sơ đồ lớp) để bạn bỏ vào thư mục docs/ClassDiagrams/ cho đúng bài bản luôn!"
+## Ngày 18/1/2026
+Câu hỏi chính của người dùng
+
+
+“Viết class Validation dùng static methods là gì?”
+→ Người dùng muốn hiểu ý nghĩa của class Validation và tại sao dùng static methods.
+
+
+“Hãy làm cho tôi một class Validation về hệ thống quản lý nhân viên”
+→ Yêu cầu viết hẳn class Validation chuyên dụng cho Employee Management, bao gồm kiểm tra: ID, tên, tuổi, lương, email, số điện thoại.
+
+
+“Giải thích code giúp tôi”
+→ Người dùng muốn từng hàm trong class Validation được giải thích cặn kẽ, từng dòng, kèm ví dụ.
+
+
+“public static boolean isVaidAge(int age){ if(age == null || age <= 18 && age => 65){ return false; } }”
+viết như vậy có được không?
+→ Hỏi về lỗi cú pháp và logic khi viết hàm kiểm tra tuổi.
+
+
+“Phần phone tôi để kiểu int được không?”
+→ Hỏi xem có thể dùng int (hoặc long) cho số điện thoại không thay vì dùng String.
+
+
+
+2️⃣ Cách mình đã trả lời
+1️⃣ Giải thích Validation + static methods
+
+
+Validation = kiểm tra dữ liệu đầu vào
+
+
+Static method = gọi trực tiếp bằng tên class, không cần tạo object
+
+
+Lợi ích: dùng chung, không lưu trạng thái, phù hợp với OOP.
+
+
+Kèm ví dụ code Java đơn giản (isValidName, isValidAge, isValidSalary)
+
+
+Hướng dẫn cách dùng trong Main / EmployeeManager.
+
+
+
+2️⃣ Viết class Validation cho hệ thống quản lý nhân viên
+
+
+Bao gồm các hàm:
+
+
+isValidId(String id)
+
+
+isValidName(String name)
+
+
+isValidAge(int age)
+
+
+isValidSalary(double salary)
+
+
+isValidEmail(String email)
+
+
+isValidPhone(String phone)
+
+
+
+
+Giải thích ý nghĩa từng hàm, kèm ví dụ dùng trong EmployeeManager.
+
+
+Nhấn mạnh Separation of Concerns trong OOP.
+
+
+
+3️⃣ Giải thích chi tiết từng hàm
+
+
+Phân tích logic từng hàm:
+
+
+Mã nhân viên không rỗng, không có khoảng trắng
+
+
+Tên ít nhất 2 ký tự
+
+
+Tuổi >=18 và <=65
+
+
+Lương >=0
+
+
+Email hợp lệ theo regex
+
+
+Số điện thoại 10 chữ số, regex \d{10}
+
+
+
+
+Giải thích cách gọi Validation.isValidX() và logic dùng ! để kiểm tra.
+
+
+
+4️⃣ Phân tích lỗi trong code isVaidAge
+
+
+int age không thể bằng null → phải bỏ age == null
+
+
+=> sai cú pháp → phải dùng >=
+
+
+&& không đúng logic → tuổi không thể vừa <=18 vừa >=65 → dùng ||
+
+
+Cách viết đúng:
+
+
+public static boolean isValidAge(int age) {
+    return age >= 18 && age <= 65;
+}
+
+hoặc dùng if-else.
+
+5️⃣ Vấn đề kiểu dữ liệu số điện thoại
+
+
+Không nên dùng int (giới hạn 2,1 tỷ, mất số 0 đầu)
+
+
+Có thể dùng long nhưng vẫn mất số 0 đầu và khó kiểm tra định dạng
+
+Chuẩn nhất vẫn là String → dễ kiểm tra regex, giữ số 0 đầu, thêm +84, dấu cách nếu muốn
+
+✅ Tóm tắt:
+
+Người dùng hỏi “làm sao viết Validation + static methods + kiểm tra từng trường dữ liệu”, “cú pháp hàm tuổi có đúng không”, và “phone dùng int được không”
+
+Mình trả lời:
+
+Giải thích khái niệm Validation + static methods
+
+Viết class Validation đầy đủ cho nhân viên
+
+Giải thích từng hàm + ví dụ dùng
+
+Phân tích lỗi logic và cú pháp của isValidAge
+
+Giải thích tại sao phone phải dùng String, không dùng int
+
+
+Nếu bạn muốn, mình có thể vẽ sơ đồ luồng dữ liệu từ Employee → Validation → EmployeeManager → Main để dễ hình dung toàn bộ hệ thống luôn.
+Bạn có muốn mình vẽ sơ đồ đó không?
