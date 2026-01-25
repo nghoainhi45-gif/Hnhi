@@ -9,8 +9,7 @@ package validation;
  * @author admin
  */
 public class Validation {
-
-    // check employee code
+     // check employee code
     public static boolean isValidId(String id) {
       if (id == null || id.trim().isEmpty()){
           return false;
@@ -27,7 +26,7 @@ public class Validation {
         return name.trim().length()>= 1;
     }
     public static boolean isVaidAge (int age){
-         return age >= 18 || age <= 65;
+         return age >= 18 && age <= 65;
     }
     
     public static boolean isVaidSalary(double salary){
@@ -45,4 +44,31 @@ public class Validation {
         }
         return phone.matches("\\d{10}");
     }
+    public static boolean isVaidDepartment(String deptId){
+        if(deptId == null || deptId.trim().isEmpty()){
+            return false;
+        }
+        return !deptId.contains(" ");
+    }
+    public static boolean isVaidPosition(String posnId, String posnName){
+        if( posnId == null || posnId.trim().isEmpty()){
+            return false;
+        }posnId = posnId.trim();
+        if (posnId.contains(" ")){
+            return false;
+        } 
+        if(posnName == null ||posnName.trim().isEmpty() ){
+            return false;
+        }
+        posnName = posnName.trim();
+        if(posnName.length()< 2){
+           return false;
+        }
+        return true;
+    }
 }
+    
+
+
+
+
