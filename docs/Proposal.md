@@ -16,30 +16,126 @@
 - Quản lý thông tin nhân viên, quản lý, lương thưởng, chấm công.
 - Dễ dàng mở rộng và nâng cấp trong tương lai.
 
-## 3. 10 lớp chức năng chính
-| STT | Lớp                  | Chức năng chính                                                                    |
-| --- | -------------------- | ---------------------------------------------------------------------------------- |
-| 1   | **Employee**         | Lưu thông tin nhân viên, hiển thị thông tin, getter/setter                         |
-| 2   | **Manager**          | Kế thừa Employee, thêm thưởng, tính tổng lương, override hiển thị                  |
-| 3   | **EmployeeList**     | Quản lý danh sách nhân viên: thêm, xóa, tìm kiếm, hiển thị                         |
-| 4   | **Department**       | Quản lý phòng ban, thêm nhân viên vào phòng ban, hiển thị nhân viên theo phòng ban |
-| 5   | **Attendance**       | Quản lý ngày công, tính lương theo số ngày làm việc                                |
-| 6   | **SalaryCalculator** | Tính lương nhân viên, lương quản lý, tổng lương công ty                            |
-| 7   | **FileHandler**      | Lưu/đọc dữ liệu nhân viên ra/ từ file `.txt` hoặc `.csv`                           |
-| 8   | **Menu**             | Hiển thị menu console, nhận lựa chọn từ người dùng                                 |
-| 9   | **EmployeeService**  | Xử lý nghiệp vụ: cập nhật thông tin, tìm kiếm nâng cao, sắp xếp danh sách          |
-| 10  | **Main**             | Chạy chương trình: khởi tạo các lớp, gọi menu, điều khiển luồng chương trình       |
+# Employee Management System (OOP)
 
-## 4. Công nghệ sử dụng
-- Ngôn ngữ: Java
-- IDE: NetBeans 17 / Eclipse
-- Cấu trúc dữ liệu: ArrayList, HashMap (nếu cần)
-- Kiến trúc: OOP (Class, Object, Inheritance, Polymorphism, Encapsulation)
-- File lưu trữ: .txt hoặc .csv
+## Overview
+Hệ thống quản lý nhân viên được thiết kế theo mô hình **OOP (Object-Oriented Programming)**.
+Tài liệu này mô tả **10 lớp chính** trong hệ thống và vai trò của từng lớp.
 
-## 5. Phân công nhóm (2-3 người)
-| Thành viên | Nhiệm vụ                                                   |
-| ---------- | ---------------------------------------------------------- |
-| A          | Xây dựng lớp Employee, Manager, Attendance                 |
-| B          | Xây dựng EmployeeList, Department, SalaryCalculator        |
-| Cả nhóm    | Menu, EmployeeService, FileHandler, Main, test và tài liệu |
+---
+
+## 1. Employee
+**Vai trò:** Lớp cha, lưu trữ thông tin chung của mọi nhân viên.
+
+**Thuộc tính:**
+- id
+- name
+- age
+- email
+- phone
+- salary
+- department
+- position
+
+---
+
+## 2. Staff
+**Vai trò:** Nhân viên thường (kế thừa Employee).
+
+**Thuộc tính thêm:**
+- overtimeHours
+
+---
+
+## 3. Manager
+**Vai trò:** Nhân viên quản lý (kế thừa Employee).
+
+**Thuộc tính thêm:**
+- responsibilityAllowance
+
+---
+
+## 4. Department
+**Vai trò:** Quản lý thông tin phòng ban.
+
+**Thuộc tính:**
+- departmentId
+- departmentName
+- description
+
+---
+
+## 5. Position
+**Vai trò:** Quản lý chức vụ và phụ cấp.
+
+**Thuộc tính:**
+- positionId
+- positionName
+- allowance
+
+---
+
+## 6. Attendance
+**Vai trò:** Quản lý chấm công.
+
+**Thuộc tính:**
+- employeeId
+- workingDays
+- absentDays
+
+---
+
+## 7. Salary
+**Vai trò:** Xử lý lương cho nhân viên.
+
+**Thuộc tính:**
+- baseSalary
+- bonus
+- deduction
+
+**Phương thức:**
+- calculateTotalSalary()
+
+---
+
+## 8. Validation
+**Vai trò:** Kiểm tra dữ liệu đầu vào (static methods).
+
+**Chức năng:**
+- isValidId()
+- isValidName()
+- isValidAge()
+- isValidEmail()
+- isValidPhone()
+- isValidSalary()
+
+---
+
+## 9. EmployeeManager
+**Vai trò:** Quản lý danh sách nhân viên (CRUD).
+
+**Thuộc tính:**
+- List<Employee> employees
+
+**Phương thức:**
+- addEmployee()
+- updateEmployee()
+- deleteEmployee()
+- findById()
+- displayAll()
+
+---
+
+## 10. Main (Program)
+**Vai trò:** Chạy chương trình và hiển thị menu.
+
+**Chức năng:**
+- main()
+- Menu thêm / sửa / xóa / tìm / hiển thị nhân viên
+
+---
+
+## Relationships (Tóm tắt)
+- Employee là lớp cha của Staff và Manager
+- Employee liên kết với Department và Position
+- EmployeeManager quản lý danh sách Employee
