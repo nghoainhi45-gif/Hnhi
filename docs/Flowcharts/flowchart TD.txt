@@ -1,0 +1,101 @@
+flowchart TD
+A[Start Program] --> B[Khoi tao ArrayList list]
+B --> C[Khoi tao Scanner sc]
+C --> D[Hien thi MENU]
+D --> E[Nhap choice]
+
+E --> F{choice == 1?}
+F -- Yes --> A1[Go to addEmployee]
+
+F -- No --> G{choice == 2?}
+G -- Yes --> B1[Go to editEmployee]
+
+G -- No --> H{choice == 3?}
+H -- Yes --> C1[Go to deleteEmployee]
+
+H -- No --> I{choice == 4?}
+I -- Yes --> D1[Go to searchEmployee]
+
+I -- No --> J{choice == 5?}
+J -- Yes --> E1[Go to displayEmployee]
+
+J -- No --> K{choice == 0?}
+K -- Yes --> Z[Thong bao thoat chuong trinh]
+K -- No --> L[Thong bao lua chon khong hop le]
+
+A1 --> D
+B1 --> D
+C1 --> D
+D1 --> D
+E1 --> D
+L --> D
+flowchart TD
+A1[Start addEmployee] --> B1[Nhap ID]
+B1 --> C1[Nhap Ten]
+C1 --> D1[Nhap Tuoi]
+D1 --> E1[Tao doi tuong Employee]
+E1 --> F1[Them Employee vao list]
+F1 --> G1[Thong bao them thanh cong]
+G1 --> H1[Return ve menu]
+flowchart TD
+A2[Start editEmployee] --> B2[Nhap ID can sua]
+B2 --> C2[Duyet danh sach nhan vien]
+
+C2 --> D2{ID co trung?}
+D2 -- No --> E2[Tiep tuc duyet]
+
+E2 --> C2
+
+D2 -- Yes --> F2[Nhap ten moi]
+F2 --> G2[Nhap tuoi moi]
+G2 --> H2[Cap nhat thong tin]
+H2 --> I2[Thong bao sua thanh cong]
+I2 --> J2[Return ve menu]
+
+C2 --> K2[Het danh sach]
+K2 --> L2[Thong bao khong tim thay nhan vien]
+L2 --> J2
+flowchart TD
+A3[Start deleteEmployee] --> B3[Nhap ID can xoa]
+B3 --> C3[Duyet danh sach nhan vien]
+
+C3 --> D3{ID co trung?}
+D3 -- No --> E3[Tiep tuc duyet]
+
+E3 --> C3
+
+D3 -- Yes --> F3[Xoa nhan vien khoi list]
+F3 --> G3[Thong bao xoa thanh cong]
+G3 --> H3[Return ve menu]
+
+C3 --> I3[Het danh sach]
+I3 --> J3[Thong bao khong tim thay nhan vien]
+J3 --> H3
+flowchart TD
+A4[Start searchEmployee] --> B4[Nhap ID can tim]
+B4 --> C4[Duyet danh sach nhan vien]
+
+C4 --> D4{ID co trung?}
+D4 -- No --> E4[Tiep tuc duyet]
+
+E4 --> C4
+
+D4 -- Yes --> F4[Hien thi ID]
+F4 --> G4[Hien thi Ten]
+G4 --> H4[Hien thi Tuoi]
+H4 --> I4[Return ve menu]
+
+C4 --> J4[Het danh sach]
+J4 --> K4[Thong bao khong tim thay nhan vien]
+K4 --> I4
+flowchart TD
+A5[Start displayEmployee] --> B5{Danh sach co rong?}
+B5 -- Yes --> C5[Thong bao danh sach rong]
+C5 --> D5[Return ve menu]
+
+B5 -- No --> E5[Duyet danh sach]
+E5 --> F5[Hien thi thong tin nhan vien]
+F5 --> E5
+
+E5 --> G5[Het danh sach]
+G5 --> D5
