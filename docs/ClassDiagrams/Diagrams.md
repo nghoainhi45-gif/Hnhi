@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
 
 class Employee {
@@ -139,3 +140,4 @@ class EmployeeManager {
 class Main {
   +main(args : String[])  void
 }
+
