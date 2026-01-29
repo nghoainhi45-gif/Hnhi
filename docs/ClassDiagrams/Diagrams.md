@@ -33,9 +33,9 @@ class Employee {
 
 class Staff {
  
- - baseSalary  double                
- - bonus  double                     
- - deduction  double 
+ - baseSalary : double                
+ - bonus : double                     
+ - deduction : double 
   + getBaseSalary()double            
  + setBaseSalary(s:double)void      
  + getBonus()double                  
@@ -140,4 +140,5 @@ class EmployeeManager {
 class Main {
   +main(args : String[])  void
 }
+
 
