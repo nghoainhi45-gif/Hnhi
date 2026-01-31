@@ -1,14 +1,17 @@
 
 # Đề xuất Dự án: Hệ thống Quản lý Nhân viên (Employee Management System)
 ## 1. Giới thiệu
-- Hệ thống Quản lý Nhân viên là ứng dụng console giúp quản lý thông tin nhân viên trong công ty.
-- Hệ thống cho phép:
-- Thêm nhân viên và quản lý
-- Hiển thị danh sách nhân viên
-- Xóa và tìm kiếm nhân viên theo ID
-- Quản lý phòng ban, chấm công, tính lương
-- Lưu dữ liệu ra file và đọc từ file
- Hệ thống được xây dựng theo OOP Java, giúp sinh viên mới học hiểu và thực hành Class, Object, Inheritance, Polymorphism, Encapsulation.
+- Hệ thống Quản lý Nhân viên là một ứng dụng console được xây dựng nhằm quản lý thông tin nhân viên trong công ty theo hướng lập trình hướng đối tượng (OOP).
+- Hệ thống cho phép thực hiện các chức năng chính như:
+  + Quản lý thông tin nhân viên thông qua lớp Employee
+  + Phân loại nhân viên thường (Staff) và nhân viên quản lý (Manager)
+  + Quản lý phòng ban (Department) và chức vụ (Position)
+  + Quản lý chấm công thông qua lớp Attendance
+  + Tính lương cho nhân viên bằng lớp Salary
+  + Quản lý danh sách nhân viên với các chức năng thêm, sửa, xóa, tìm kiếm và hiển thị thông qua lớp EmployeeManager
+  + Kiểm tra tính hợp lệ của dữ liệu đầu vào bằng lớp Validation
+  + Chương trình được điều khiển thông qua menu chính trong lớp Main.
+ 
 
 ## 2. Mục tiêu
 - Áp dụng lập trình hướng đối tượng trong Java.
@@ -139,3 +142,4 @@ Tài liệu này mô tả **10 lớp chính** trong hệ thống và vai trò c�
 - Employee là lớp cha của Staff và Manager
 - Employee liên kết với Department và Position
 - EmployeeManager quản lý danh sách Employee
+
