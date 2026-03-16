@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class Employee {
         - id : String
@@ -52,3 +53,4 @@ classDiagram
     Employee <|-- Staff
     Employee <|-- Manager
     Main --> Employee
+```
