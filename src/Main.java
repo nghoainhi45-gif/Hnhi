@@ -2,155 +2,316 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package nhanvien;
 
 /**
  *
- * @author Tuong Vy
+ * @author admin
  */
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.Scanner;
-  
+import java.text.NumberFormat;
+import java.util.Locale;
 
-
-// ===== LOP NHAN VIEN =====
-class Employee {
-    int id;
-    String name;
-    int age;
-
-    public Employee(int id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
-}
-
-// ===== CHUONG TRINH CHINH =====
 public class Main {
 
-    static ArrayList<Employee> list = new ArrayList<>();
-    static Scanner sc = new Scanner(System.in);
-
-    // ===== MAIN =====
     public static void main(String[] args) {
-        int choice;
 
-        do {
-            System.out.println("\n===== MENU QUAN LY NHAN VIEN =====");
-            System.out.println("1. Them nhan vien");
-            System.out.println("2. Sua nhan vien");
-            System.out.println("3. Xoa nhan vien");
-            System.out.println("4. Tim nhan vien");
-            System.out.println("5. Hien thi danh sach nhan vien");
-            System.out.println("0. Thoat");
-            System.out.print("Nhap lua chon: ");
-            choice = sc.nextInt();
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Employee> list = new ArrayList<>();
+        NumberFormat vn = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
-            switch (choice) {
-                case 1:
-                    addEmployee();
-                    break;
-                case 2:
-                    editEmployee();
-                    break;
-                case 3:
-                    deleteEmployee();
-                    break;
-                case 4:
-                    searchEmployee();
-                    break;
-                case 5:
-                    displayEmployee();
-                    break;
-                case 0:
-                    System.out.println("Thoat chuong trinh!");
-                    break;
-                default:
-                    System.out.println("Lua chon khong hop le!");
-            }
-        } while (choice != 0);
-    }
+        System.out.print("Nhập số lượng nhân viên: ");
+        int n = Integer.parseInt(sc.nextLine());
 
-    // ===== THEM NHAN VIEN =====
-    static void addEmployee() {
-        System.out.print("Nhap ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+        for (int i = 0; i < n; i++) {
 
-        System.out.print("Nhap ten: ");
-        String name = sc.nextLine();
+            System.out.println("\n===== Nhân viên thứ " + (i + 1) + " =====");
+            System.out.println("1. Staff");
+            System.out.println("2. Manager");
+            System.out.print("Chọn loại: ");
+            int choice = Integer.parseInt(sc.nextLine());
 
-        System.out.print("Nhap tuoi: ");
-        int age = sc.nextInt();
+            System.out.print("ID: ");
+            String id = sc.nextLine();
 
-        list.add(new Employee(id, name, age));
-        System.out.println("Them nhan vien thanh cong!");
-    }
+            System.out.print("Name: ");
+            String name = sc.nextLine();
 
-    // ===== SUA NHAN VIEN =====
-    static void editEmployee() {
-        System.out.print("Nhap ID can sua: ");
-        int id = sc.nextInt();
-        sc.nextLine();
+            System.out.print("Age: ");
+            int age = Integer.parseInt(sc.nextLine());
 
-        for (Employee e : list) {
-            if (e.id == id) {
-                System.out.print("Nhap ten moi: ");
-                e.name = sc.nextLine();
+            System.out.print("Email: ");
+            String email = sc.nextLine();
 
-                System.out.print("Nhap tuoi moi: ");
-                e.age = sc.nextInt();
+            System.out.print("Phone: ");
+            String phone = sc.nextLine();
 
-                System.out.println("Sua thanh cong!");
-                return;
+            System.out.print("Department: ");
+            String dep = sc.nextLine();
+
+            System.out.print("Position: ");
+            String posn = sc.nextLine();
+
+            if (choice == 1) {
+
+                System.out.print("Base Salary: ");
+                double baseSalary = sc.nextDouble();
+
+                System.out.print("Bonus: ");
+                double bonus = sc.nextDouble();
+
+                System.out.print("Deduction: ");
+                double deduction = sc.nextDouble();
+
+                Staff staff = new Staff(id, name, age, email, phone,
+                        0, dep, posn,
+                        baseSalary, bonus, deduction);
+
+                list.add(staff);
+
+            } else if (choice == 2) {
+
+                System.out.print("Salary: ");
+                double salary = sc.nextDouble();
+
+                System.out.print("Responsibility Allowance: ");
+                double allowance = sc.nextDouble();
+
+                Manager manager = new Manager(id, name, age, email, phone,
+                        salary, dep, posn,
+                        allowance);
+
+                list.add(manager);
             }
         }
-        System.out.println("Khong tim thay nhan vien!");
-    }
 
-    // ===== XOA NHAN VIEN =====
-    static void deleteEmployee() {
-        System.out.print("Nhap ID can xoa: ");
-        int id = sc.nextInt();
+        // ====== Xuất danh sách ======
+        System.out.println("\n===== DANH SÁCH NHÂN VIÊN =====");
 
         for (Employee e : list) {
-            if (e.id == id) {
-                list.remove(e);
-                System.out.println("Xoa thanh cong!");
-                return;
+
+            System.out.println("----------------------------");
+            System.out.println("ID: " + e.getId());
+            System.out.println("Name: " + e.getName());
+            System.out.println("Age: " + e.getAge());
+            System.out.println("Department: " + e.getDep());
+            System.out.println("Position: " + e.getPosn());
+
+            if (e instanceof Staff) {
+                Staff s = (Staff) e;
+                System.out.println("Total Salary: " + vn.format(s.calculateTotalSalary()));
+
+            } else if (e instanceof Manager) {
+                Manager m = (Manager) e;
+                System.out.println("Total Salary: " + vn.format(m.calculateTotalSalary()));
             }
         }
-        System.out.println("Khong tim thay nhan vien!");
+
+        sc.close();
     }
+}
+ */
+// no_polymorphims
 
-    // ===== TIM NHAN VIEN =====
-    static void searchEmployee() {
-        System.out.print("Nhap ID can tim: ");
-        int id = sc.nextInt();
+/*import java.util.ArrayList;
+import java.util.Scanner;
+import java.text.NumberFormat;
+import java.util.Locale;
 
-        for (Employee e : list) {
-            if (e.id == id) {
-                System.out.println("ID: " + e.id);
-                System.out.println("Ten: " + e.name);
-                System.out.println("Tuoi: " + e.age);
-                return;
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Staff> staffList = new ArrayList<>();
+        ArrayList<Manager> managerList = new ArrayList<>();
+        NumberFormat vn = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+
+        System.out.print("Nhập số lượng nhân viên: ");
+        int n = Integer.parseInt(sc.nextLine());
+
+        for (int i = 0; i < n; i++) {
+
+            System.out.println("\n===== Nhân viên thứ " + (i + 1) + " =====");
+            System.out.println("1. Staff");
+            System.out.println("2. Manager");
+            System.out.print("Chọn loại: ");
+            int choice = Integer.parseInt(sc.nextLine());
+
+            System.out.print("ID: ");
+            String id = sc.nextLine();
+
+            System.out.print("Name: ");
+            String name = sc.nextLine();
+
+            System.out.print("Age: ");
+            int age = Integer.parseInt(sc.nextLine());
+
+            System.out.print("Email: ");
+            String email = sc.nextLine();
+
+            System.out.print("Phone: ");
+            String phone = sc.nextLine();
+
+            System.out.print("Department: ");
+            String dep = sc.nextLine();
+
+            System.out.print("Position: ");
+            String posn = sc.nextLine();
+
+            if (choice == 1) {
+
+                System.out.print("Base Salary: ");
+                double baseSalary = Double.parseDouble(sc.nextLine());
+
+                System.out.print("Bonus: ");
+                double bonus = Double.parseDouble(sc.nextLine());
+
+                System.out.print("Deduction: ");
+                double deduction = Double.parseDouble(sc.nextLine());
+
+                Staff staff = new Staff(id, name, age, email, phone,
+                        0, dep, posn,
+                        baseSalary, bonus, deduction);
+
+                staffList.add(staff);
+
+            } else if (choice == 2) {
+
+                System.out.print("Salary: ");
+                double salary = Double.parseDouble(sc.nextLine());
+
+                System.out.print("Responsibility Allowance: ");
+                double allowance = Double.parseDouble(sc.nextLine());
+
+                Manager manager = new Manager(id, name, age, email, phone,
+                        salary, dep, posn,
+                        allowance);
+
+                managerList.add(manager);
             }
         }
-        System.out.println("Khong tim thay nhan vien!");
-    }
 
-    // ===== HIEN THI DANH SACH =====
-    static void displayEmployee() {
-        if (list.isEmpty()) {
-            System.out.println("Danh sach rong!");
-            return;
+        // ===== In Staff =====
+        System.out.println("\n===== DANH SÁCH STAFF =====");
+
+        for (Staff s : staffList) {
+            System.out.println("----------------------------");
+            System.out.println("ID: " + s.getId());
+            System.out.println("Name: " + s.getName());
+            System.out.println("Age: " + s.getAge());
+            System.out.println("Department: " + s.getDep());
+            System.out.println("Position: " + s.getPosn());
+            System.out.println("Total Salary: " + vn.format(s.calculateTotalSalary()));
         }
 
-        System.out.println("\n----- DANH SACH NHAN VIEN -----");
-        for (Employee e : list) {
-            System.out.println("ID: " + e.id +
-                               " | Ten: " + e.name +
-                               " | Tuoi: " + e.age);
+        // ===== In Manager =====
+        System.out.println("\n===== DANH SÁCH MANAGER =====");
+
+        for (Manager m : managerList) {
+            System.out.println("----------------------------");
+            System.out.println("ID: " + m.getId());
+            System.out.println("Name: " + m.getName());
+            System.out.println("Age: " + m.getAge());
+            System.out.println("Department: " + m.getDep());
+            System.out.println("Position: " + m.getPosn());
+            System.out.println("Total Salary: " + vn.format(m.calculateTotalSalary()));
+        }
+
+        sc.close();
+    }
+}
+ */
+//From file
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        ArrayList<Employee> list = new ArrayList<>();
+        NumberFormat vn = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        try {
+            File file = new File("data.txt");
+            Scanner sc = new Scanner(file);
+
+            while (sc.hasNextLine()) {
+
+                String line = sc.nextLine();
+                String[] parts = line.split(",");
+
+                int type = Integer.parseInt(parts[0]);
+
+                if (type == 1) {
+                    // Staff
+                    Staff s = new Staff(
+                            parts[1], // id
+                            parts[2], // name
+                            Integer.parseInt(parts[3]), // age
+                            parts[5], // email
+                            parts[6], // phone
+                            Double.parseDouble(parts[4]), // salary
+                            parts[7], // dep
+                            parts[8], // posn
+                            Double.parseDouble(parts[9]), // baseSalary
+                            Double.parseDouble(parts[10]),// bonus
+                            Double.parseDouble(parts[11]) // deduction
+                    );
+                    list.add(s);
+
+                } else if (type == 2) {
+                    // Manager
+                    Manager m = new Manager(
+                            parts[1],
+                            parts[2],
+                            Integer.parseInt(parts[3]),
+                            parts[5],
+                            parts[6],
+                            Double.parseDouble(parts[4]),
+                            parts[7],
+                            parts[8],
+                            Double.parseDouble(parts[9]) // responsibilityAllowance
+                    );
+                    list.add(m);
+                }
+            }
+
+            sc.close();
+
+            // ===== In danh sách =====
+            System.out.println("===== EMPLOYEE LIST =====");
+
+            for (Employee e : list) {
+                System.out.println("----------------------------");
+                System.out.println(e);
+
+//                System.out.println("----------------------------");
+//                System.out.println("ID: " + e.getId());
+//                System.out.println("Name: " + e.getName());
+//                System.out.println("Age: " + e.getAge());
+//                System.out.println("Department: " + e.getDep());
+//                System.out.println("Position: " + e.getPosn());
+//                if (e instanceof Staff) {
+//                    Staff s = (Staff) e;
+//                    System.out.println("Total Salary: " + vn.format(s.calculateTotalSalary()));
+//
+//                } else if (e instanceof Manager) {
+//                    Manager m = (Manager) e;
+//                    System.out.println("Total Salary: " + vn.format(m.calculateTotalSalary()));
+//                }
+                System.out.println("Total Salary: "
+                        + vn.format(e.calculateTotalSalary()));
+            }
+
+        } catch (Exception e) {
+            System.out.println("File error: " + e.getMessage());
         }
     }
+
+    
 }

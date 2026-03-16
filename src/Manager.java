@@ -8,24 +8,43 @@ package nhanvien;
  *
  * @author admin
  */
-public class Manager extends Employee{
+public class Manager extends Employee {
+
     private double responsibilityAllowance;
 
     public Manager(String id, String name, int age, String email, String phone,
-                   double salary, String department, String position,
-                   double responsibilityAllowance) {
-        super(id, name, age, salary, email, phone,department, position);
+            double salary, String department, String position,
+            double responsibilityAllowance) {
+        super(id, name, age, salary, email, phone, department, position);
         this.responsibilityAllowance = responsibilityAllowance;
     }
 
-    public double getResponsibilityAllowance() { return this.responsibilityAllowance; }
-    public void setResponsibilityAllowance(double responsibilityAllowance) {
-        this.responsibilityAllowance = responsibilityAllowance;
+//    public double getResponsibilityAllowance() {
+//        return this.responsibilityAllowance;
+//    }
+//
+//    public void setResponsibilityAllowance(double responsibilityAllowance) {
+//        this.responsibilityAllowance = responsibilityAllowance;
+//    }
+//
+//    // Phương thức tính phụ cấp
+//    public double calculateAllowance() {
+//        return this.responsibilityAllowance;
+//    }
+//    public double calculateTotalSalary() {
+//        return this.getSalary() + this.calculateAllowance();
+//    }
+
+    @Override
+    public double calculateTotalSalary() {
+        return getSalary() + this.responsibilityAllowance;
     }
 
-    // Phương thức tính phụ cấp
-    public double calculateAllowance() {
-        return this.responsibilityAllowance;
-    }
+    @Override
+    public String toString() {
+        return super.toString() +
+               "\nType: Manager" +
+               "\nResponsibility Allowance: " + this.responsibilityAllowance;
     
+    }
 }
