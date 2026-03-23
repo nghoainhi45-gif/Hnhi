@@ -8,6 +8,9 @@ package nhanvien;
  *
  * @author admin
  */
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Employee {
 
     private String id;
@@ -29,6 +32,11 @@ public class Employee {
         this.phone = phone;
         this.posn = posn;
         this.dep = dep;
+    }
+
+    private String formatVND(double amount) {
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+        return formatter.format(amount) + " ₫";
     }
 
     public String getId() {
@@ -94,17 +102,18 @@ public class Employee {
     public void setPosn(String posn) {
         this.posn = posn;
     }
+
     public double calculateTotalSalary() {
         return this.salary;
     }
 
     @Override
     public String toString() {
-        return "ID: " + this.id +
-               "\nName: " + this.name +
-               "\nSalary: " + this.salary+
-               "\nAge: " + this.age +
-               "\nDepartment: " + this.dep +
-               "\nPosition: " + this.posn;
+        return "ID: " + this.id
+                + "\nName: " + this.name
+                + "\nSalary: " + formatVND(this.salary)
+                + "\nAge: " + this.age
+                + "\nDepartment: " + this.dep
+                + "\nPosition: " + this.posn;
     }
 }
