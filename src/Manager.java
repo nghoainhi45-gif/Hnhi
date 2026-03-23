@@ -8,6 +8,9 @@ package nhanvien;
  *
  * @author admin
  */
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Manager extends Employee {
 
     private double responsibilityAllowance;
@@ -34,6 +37,10 @@ public class Manager extends Employee {
 //    public double calculateTotalSalary() {
 //        return this.getSalary() + this.calculateAllowance();
 //    }
+    private String formatVND(double amount) {
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+        return formatter.format(amount) + " ₫";
+    }
 
     @Override
     public double calculateTotalSalary() {
@@ -42,9 +49,9 @@ public class Manager extends Employee {
 
     @Override
     public String toString() {
-        return super.toString() +
-               "\nType: Manager" +
-               "\nResponsibility Allowance: " + this.responsibilityAllowance;
-    
+        return super.toString()
+                + "\nType: Manager"
+                + "\nResponsibility Allowance: " + formatVND(this.responsibilityAllowance);
+
     }
 }

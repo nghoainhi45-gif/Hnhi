@@ -8,6 +8,8 @@ package nhanvien;
  *
  * @author admin
  */
+import java.text.NumberFormat;
+import java.util.Locale;
 public class Staff extends Employee {
 
     private double baseSalary;
@@ -50,18 +52,24 @@ public class Staff extends Employee {
 //
 //    public double calculateTotalSalary() {
 //        return this.baseSalary + this.bonus - this.deduction;
-//    } 
+//    }
+    private String formatVND(double amount) {
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+        return formatter.format(amount) + " ₫";
+    
+    }
     @Override
     public double calculateTotalSalary() {
-        return this.baseSalary + this.bonus - this.deduction;
+        return getSalary() + this.baseSalary + this.bonus - this.deduction;
     }
 
     @Override
     public String toString() {
         return super.toString() + 
                "\nType: Staff" +
-               "\nBase Salary: " + this.baseSalary +
-               "\nBonus: " + this.bonus +
-               "\nDeduction: " + this.deduction;
+               "\nBase Salary: " + formatVND(this.baseSalary )+
+               "\nBonus: " + formatVND(this.bonus) +
+               "\nDeduction: " + formatVND(this.deduction);
+               
     }
 }

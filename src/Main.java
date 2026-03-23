@@ -224,7 +224,7 @@ public class Main {
 }
  */
 //From file
-import java.io.File;
+/*import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.text.NumberFormat;
@@ -314,4 +314,252 @@ public class Main {
     }
 
     
+}
+ */
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class Main {
+
+    static Scanner input = new Scanner(System.in);
+    static EmployeeManager manager = new EmployeeManager();
+    static NumberFormat vn = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+
+    // ✅ Helper đọc số nguyên
+    static int readInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                return Integer.parseInt(input.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid! Enter a number.");
+            }
+        }
+    }
+
+    // ✅ Helper đọc số thực
+    static double readDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                return Double.parseDouble(input.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid! Enter a number.");
+            }
+        }
+    }
+
+    // ✅ Helper đọc chuỗi
+    static String readString(String prompt) {
+        System.out.print(prompt);
+        return input.nextLine().trim();
+    }
+
+    public static void main(String[] args) {
+        loadFromFile("data.txt");
+
+        int choice;
+        do {
+            System.out.println("\n===== MENU =====");
+            System.out.println("1. Display all employee");
+            System.out.println("2. Find by ID");
+            System.out.println("3. Find by Name");
+            System.out.println("4. Add employee");
+            System.out.println("5. Update employee");
+            System.out.println("6. Delete employee");
+            System.out.println("0. Exit");
+            choice = readInt("Choose: ");
+
+            switch (choice) {
+                case 1:
+                    displayAll();
+                    break;
+                case 2:
+                    findById();
+                    break;
+                case 3:
+                    findByName();
+                    break;
+                case 4:
+                    addEmployee();
+                    break;
+                case 5:
+                    updateEmployee();
+                    break;
+                case 6:
+                    deleteEmployee();
+                    break;
+                case 0:
+                    System.out.println("Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        } while (choice != 0);
+
+        input.close();
+    }
+
+    static void loadFromFile(String filename) {
+        try {
+            Scanner sc = new Scanner(new File(filename));
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine().trim();
+                if (line.isEmpty()) {
+                    continue;
+                }
+                Employee e = createEmployee(line.split(","));
+                if (e != null) {
+                    manager.addEmployee(e);
+                }
+            }
+            sc.close();
+            System.out.println("Loaded " + manager.getList().size() + " employees.");
+        } catch (Exception e) {
+            System.out.println("File not found. Starting with empty list.");
+        }
+    }
+
+    static Employee createEmployee(String[] p) {
+        int type = Integer.parseInt(p[0]);
+        if (type == 1) {
+            return new Staff(p[1], p[2], Integer.parseInt(p[3]), p[5], p[6],
+                    Double.parseDouble(p[4]), p[7], p[8],
+                    Double.parseDouble(p[9]), Double.parseDouble(p[10]), Double.parseDouble(p[11]));
+        }
+        if (type == 2) {
+            return new Manager(p[1], p[2], Integer.parseInt(p[3]), p[5], p[6],
+                    Double.parseDouble(p[4]), p[7], p[8], Double.parseDouble(p[9]));
+        }
+        return null;
+    }
+
+    static void printEmployee(Employee e) {
+        System.out.println("----------------------------");
+        System.out.println(e);
+        System.out.println("Total Salary: " + vn.format(e.calculateTotalSalary()));
+    }
+
+    static void displayAll() {
+        if (manager.getList().isEmpty()) {
+            System.out.println("No employees found.");
+            return;
+        }
+        System.out.println("===== EMPLOYEE LIST =====");
+        for (Employee e : manager.getList()) {
+            printEmployee(e);
+        }
+        System.out.println("Total: " + manager.getList().size() + " employees");
+    }
+
+    static void findById() {
+        Employee e = manager.findById(readString("Enter ID: "));
+        if (e != null) {
+            printEmployee(e);
+        } else {
+            System.out.println("Employee not found!");
+        }
+    }
+
+    static void findByName() {
+        ArrayList<Employee> results = manager.findByName(readString("Enter name keyword: "));
+        if (results.isEmpty()) {
+            System.out.println("Employee not found!");
+            return;
+        }
+        System.out.println("Found " + results.size() + " employee(s):");
+        for (Employee e : results) {
+            printEmployee(e);
+        }
+    }
+
+    static void addEmployee() {
+        int type = readInt("Type (1=Staff, 2=Manager): ");
+        String newId = readString("ID: ");
+        String newName = readString("Name: ");
+        int newAge = readInt("Age: ");
+        String newEmail = readString("Email: ");
+        String newPhone = readString("Phone: ");
+        double newSal = readDouble("Salary: ");
+        String newDep = readString("Department: ");
+        String newPosn = readString("Position: ");
+
+        if (!Validation.isValidId(newId)) {
+            System.out.println("Invalid ID!");
+            return;
+        }
+        if (!Validation.isValidName(newName)) {
+            System.out.println("Invalid Name!");
+            return;
+        }
+        if (!Validation.isValidAge(newAge)) {
+            System.out.println("Invalid Age (18-65)!");
+            return;
+        }
+        if (!Validation.isValidEmail(newEmail)) {
+            System.out.println("Invalid Email!");
+            return;
+        }
+        if (!Validation.isValidPhone(newPhone)) {
+            System.out.println("Invalid Phone!");
+            return;
+        }
+        if (!Validation.isValidSalary(newSal)) {
+            System.out.println("Invalid Salary!");
+            return;
+        }
+
+        Employee newE;
+        if (type == 1) {
+            newE = new Staff(newId, newName, newAge, newEmail, newPhone, newSal, newDep, newPosn,
+                    readDouble("Base Salary: "), readDouble("Bonus: "), readDouble("Deduction: "));
+        } else if (type == 2) {
+            newE = new Manager(newId, newName, newAge, newEmail, newPhone, newSal, newDep, newPosn,
+                    readDouble("Responsibility Allowance: "));
+        } else {
+            System.out.println("Invalid type!");
+            return;
+        }
+        manager.addEmployee(newE);
+    }
+
+    static void updateEmployee() {
+        Employee e = manager.findById(readString("Enter ID to update: "));
+        if (e == null) {
+            System.out.println("Employee not found!");
+            return;
+        }
+
+        System.out.println("(Press Enter to keep current value)");
+
+        String name = readString("New Name [" + e.getName() + "]: ");
+        if (name.isEmpty()) {
+            name = e.getName();
+        }
+
+        String ageStr = readString("New Age [" + e.getAge() + "]: ");
+        int age = ageStr.isEmpty() ? e.getAge() : Integer.parseInt(ageStr);
+
+        String email = readString("New Email [" + e.getEmail() + "]: ");
+        if (email.isEmpty()) {
+            email = e.getEmail();
+        }
+
+        String phone = readString("New Phone [" + e.getPhone() + "]: ");
+        if (phone.isEmpty()) {
+            phone = e.getPhone();
+        }
+
+        String salStr = readString("New Salary [" + vn.format(e.getSalary()) + "]: ");
+        double sal = salStr.isEmpty() ? e.getSalary() : Double.parseDouble(salStr);
+
+        manager.updateEmployee(e.getId(), name, age, email, phone, sal);
+    }
+
+    static void deleteEmployee() {
+        manager.deleteEmployee(readString("Enter ID to delete: "));
+    }
 }
