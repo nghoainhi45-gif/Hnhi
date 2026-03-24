@@ -316,7 +316,7 @@ public class Main {
     
 }
  */
-import java.io.File;
+ /*import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.text.NumberFormat;
@@ -452,6 +452,7 @@ public class Main {
         for (Employee e : manager.getList()) {
             printEmployee(e);
         }
+        System.out.println("---------------------------");
         System.out.println("Total: " + manager.getList().size() + " employees");
     }
 
@@ -561,5 +562,248 @@ public class Main {
 
     static void deleteEmployee() {
         manager.deleteEmployee(readString("Enter ID to delete: "));
+    }
+}
+ */
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class Main {
+
+    // 1. Chuyển thành biến instance (không có static)
+    private Scanner input = new Scanner(System.in);
+    private EmployeeManager manager = new EmployeeManager();
+    private NumberFormat vn = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+
+    // 2. Hàm main: Chỉ đóng vai trò khởi tạo đối tượng và chạy
+    public static void main(String[] args) {
+        Main app = new Main(); // Tạo thực thể của lớp Main
+        app.startApp();        // Gọi hàm bắt đầu
+    }
+
+    // 3. Hàm điều khiển chính (thay thế logic trong main cũ)
+    public void startApp() {
+        loadFromFile("data.txt");
+
+        int choice;
+        do {
+            System.out.println("\n===== MENU MANAGEMENT =====");
+            System.out.println("1. Display all employee");
+            System.out.println("2. Find by ID");
+            System.out.println("3. Find by Name");
+            System.out.println("4. Add employee");
+            System.out.println("5. Update employee");
+            System.out.println("6. Delete employee");
+            System.out.println("0. Exit");
+            choice = readInt("Choose: ");
+
+            switch (choice) {
+                case 1:
+                    displayAll();
+                    break;
+                case 2:
+                    findById();
+                    break;
+                case 3:
+                    findByName();
+                    break;
+                case 4:
+                    addEmployee();
+                    break;
+                case 5:
+                    updateEmployee();
+                    break;
+                case 6:
+                    deleteEmployee();
+                    break;
+                case 0:
+                    System.out.println("Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        } while (choice != 0);
+
+        input.close();
+    }
+
+    // --- CÁC HÀM HELPER (BỎ STATIC) ---
+    int readInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                return Integer.parseInt(input.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid! Enter a number.");
+            }
+        }
+    }
+
+    double readDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                return Double.parseDouble(input.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid! Enter a number.");
+            }
+        }
+    }
+
+    String readString(String prompt) {
+        System.out.print(prompt);
+        return input.nextLine().trim();
+    }
+
+    // --- CÁC HÀM NGHIỆP VỤ (BỎ STATIC) ---
+    void loadFromFile(String filename) {
+        try {
+            Scanner sc = new Scanner(new File(filename));
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine().trim();
+                if (line.isEmpty()) {
+                    continue;
+                }
+                Employee e = createEmployee(line.split(","));
+                if (e != null) {
+                    manager.addEmployee(e);
+                }
+            }
+            sc.close();
+            System.out.println("Loaded " + manager.getList().size() + " employees.");
+        } catch (Exception e) {
+            System.out.println("File not found or error loading data.");
+        }
+    }
+
+    Employee createEmployee(String[] p) {
+        try {
+            int type = Integer.parseInt(p[0]);
+            if (type == 1) {
+                return new Staff(p[1], p[2], Integer.parseInt(p[3]), p[5], p[6],
+                        Double.parseDouble(p[4]), p[7], p[8],
+                        Double.parseDouble(p[9]), Double.parseDouble(p[10]), Double.parseDouble(p[11]));
+            } else if (type == 2) {
+                return new Manager(p[1], p[2], Integer.parseInt(p[3]), p[5], p[6],
+                        Double.parseDouble(p[4]), p[7], p[8], Double.parseDouble(p[9]));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
+
+    void printEmployee(Employee e) {
+        System.out.println("----------------------------");
+        System.out.println(e);
+        System.out.println("Total Salary: " + vn.format(e.calculateTotalSalary()));
+    }
+
+    void displayAll() {
+        if (manager.getList().isEmpty()) {
+            System.out.println("No employees found.");
+            return;
+        }
+        System.out.println("===== EMPLOYEE LIST =====");
+        for (Employee e : manager.getList()) {
+            printEmployee(e);
+        }
+        System.out.println("---------------------------");
+        System.out.println("Total: " + manager.getList().size() + " employees");
+    }
+
+    void findById() {
+        Employee e = manager.findById(readString("Enter ID: "));
+        if (e != null) {
+            printEmployee(e);
+        } else {
+            System.out.println("Employee not found!");
+        }
+    }
+
+    void findByName() {
+        ArrayList<Employee> results = manager.findByName(readString("Enter name keyword: "));
+        if (results.isEmpty()) {
+            System.out.println("Employee not found!");
+            return;
+        }
+        for (Employee e : results) {
+            printEmployee(e);
+        }
+    }
+
+    void addEmployee() {
+        int type = readInt("Type (1=Staff, 2=Manager): ");
+        String id = readString("ID: ");
+        String name = readString("Name: ");
+        int age = readInt("Age: ");
+        String email = readString("Email: ");
+        String phone = readString("Phone: ");
+        double sal = readDouble("Salary: ");
+        String dep = readString("Department: ");
+        String pos = readString("Position: ");
+
+        // Giả sử lớp Validation cũng có các hàm static (Validation thường để static là hợp lý)
+        if (!Validation.isValidId(id) || !Validation.isValidEmail(email)) {
+            System.out.println("Validation failed! Please check input data.");
+            return;
+        }
+
+        Employee newE;
+        if (type == 1) {
+            newE = new Staff(id, name, age, email, phone, sal, dep, pos,
+                    readDouble("Base Salary: "), readDouble("Bonus: "), readDouble("Deduction: "));
+        } else {
+            newE = new Manager(id, name, age, email, phone, sal, dep, pos,
+                    readDouble("Responsibility Allowance: "));
+        }
+        manager.addEmployee(newE);
+        System.out.println("Added successfully!");
+    }
+
+    void updateEmployee() {
+        String id = readString("Enter ID to update: ");
+        Employee e = manager.findById(id);
+        if (e == null) {
+            System.out.println("Employee not found!");
+            return;
+        }
+
+        System.out.println("(Press Enter to keep current value)");
+        String name = readString("New Name [" + e.getName() + "]: ");
+        if (name.isEmpty()) {
+            name = e.getName();
+        }
+
+        String ageStr = readString("New Age [" + e.getAge() + "]: ");
+        int age = ageStr.isEmpty() ? e.getAge() : Integer.parseInt(ageStr);
+
+        String email = readString("New Email [" + e.getEmail() + "]: ");
+        if (email.isEmpty()) {
+            email = e.getEmail();
+        }
+
+        String phone = readString("New Phone [" + e.getPhone() + "]: ");
+        if (phone.isEmpty()) {
+            phone = e.getPhone();
+        }
+
+        String salStr = readString("New Salary [" + vn.format(e.getSalary()) + "]: ");
+        double sal = salStr.isEmpty() ? e.getSalary() : Double.parseDouble(salStr);
+
+        manager.updateEmployee(id, name, age, email, phone, sal);
+        System.out.println("Updated successfully!");
+    }
+
+    void deleteEmployee() {
+        String id = readString("Enter ID to delete: ");
+        if (manager.deleteEmployee(id)) {
+            System.out.println("Deleted successfully!");
+        } else {
+            System.out.println("Delete failed! ID not found.");
+        }
     }
 }
